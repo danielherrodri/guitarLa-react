@@ -1,13 +1,12 @@
 import { Dispatch, useMemo } from "react";
-import type { CartItem, Guitar } from "../types";
+import type { CartItem } from "../types";
 import { CartActions } from "../reducers/cart-reducer";
 type HeaderProps = {
   cart: CartItem[] | undefined;
   dispatch: Dispatch<CartActions>;
-  clearCart: () => void;
 };
 
-export default function Header({ cart, dispatch, clearCart }: HeaderProps) {
+export default function Header({ cart, dispatch }: HeaderProps) {
   const isEmpty = useMemo(() => cart?.length === 0, [cart]);
 
   const cartTotal = useMemo(
@@ -116,7 +115,7 @@ export default function Header({ cart, dispatch, clearCart }: HeaderProps) {
 
                 <button
                   className="btn btn-dark w-100 mt-3 p-2"
-                  onClick={clearCart}
+                  onClick={() => dispatch({ type: "clear-cart" })}
                 >
                   Vaciar Carrito
                 </button>
