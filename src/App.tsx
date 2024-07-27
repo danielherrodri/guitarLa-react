@@ -6,7 +6,6 @@ import { cartReducer, initialState } from "./reducers/cart-reducer";
 
 function App() {
   const {
-    data,
     cart,
     addToCart,
     removeFromCart,
@@ -16,7 +15,6 @@ function App() {
     isEmpty,
     cartTotal,
   } = useCart();
-
 
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
@@ -35,7 +33,7 @@ function App() {
         <h2 className="text-center">Nuestra Colección</h2>
 
         <div className="row mt-5">
-          {data.map((guitarra) => (
+          {state?.data.map((guitarra) => (
             <Guitarra
               key={guitarra.id}
               guitar={guitarra}
