@@ -4,16 +4,10 @@ import { CartActions } from "../reducers/cart-reducer";
 type HeaderProps = {
   cart: CartItem[] | undefined;
   dispatch: Dispatch<CartActions>;
-  decreaseQuantity: (id: Guitar["id"]) => void;
   clearCart: () => void;
 };
 
-export default function Header({
-  cart,
-  dispatch,
-  decreaseQuantity,
-  clearCart,
-}: HeaderProps) {
+export default function Header({ cart, dispatch, clearCart }: HeaderProps) {
   const isEmpty = useMemo(() => cart?.length === 0, [cart]);
 
   const cartTotal = useMemo(
@@ -73,7 +67,12 @@ export default function Header({
                               <button
                                 type="button"
                                 className="btn btn-dark"
-                                onClick={() => decreaseQuantity(guitar.id)}
+                                onClick={() =>
+                                  dispatch({
+                                    type: "decrease-quantity",
+                                    payload: { id: guitar.id },
+                                  })
+                                }
                               >
                                 -
                               </button>
