@@ -1,6 +1,8 @@
 import Header from "./components/Header";
 import Guitarra from "./components/Guitarra";
 import useCart from "./hooks/useCart";
+import { useReducer } from "react";
+import { cartReducer, initialState } from "./reducers/cart-reducer";
 
 function App() {
   const {
@@ -14,6 +16,9 @@ function App() {
     isEmpty,
     cartTotal,
   } = useCart();
+
+
+  const [state, dispatch] = useReducer(cartReducer, initialState);
 
   return (
     <>
