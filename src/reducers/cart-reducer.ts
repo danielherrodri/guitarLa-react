@@ -4,6 +4,11 @@ import { CartItem, Guitar } from "../types";
 const MAX_ITEM = 5;
 const MIN_ITEM = 1;
 
+const initialCart = (): CartItem[] => {
+    const localStorageCart = localStorage.getItem("cart");
+    return localStorageCart ? JSON.parse(localStorageCart) : [];
+};
+
 export type CartActions =
     { type: 'add-to-cart', payload: { item: Guitar } } |
     { type: 'remove-from-cart', payload: { id: Guitar['id'] } } |
@@ -19,7 +24,7 @@ export type CartState = {
 
 export const initialState: CartState = {
     data: db,
-    cart: []
+    cart: initialCart()
 }
 
 export const cartReducer = (
