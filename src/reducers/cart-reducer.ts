@@ -1,6 +1,9 @@
 import { db } from "../data/db";
 import { CartItem, Guitar } from "../types";
 
+const MAX_ITEM = 5;
+const MIN_ITEM = 1;
+
 export type CartActions =
     { type: 'add-to-cart', payload: { item: Guitar } } |
     { type: 'remove-from-cart', payload: { id: Guitar['id'] } } |
@@ -25,8 +28,21 @@ export const cartReducer = (
 ) => {
 
     if (action.type === 'add-to-cart') {
+        const itemExists = state.cart.findIndex((guitar) => guitar.id === action.payload.item.id);
+        let updatedCart: CartItem[] = []
+
+        if (itemExists >= 0) {
+            if (state.cart[itemExists].quantity >= MAX_ITEM) return;
+            updatedCart = [...state.cart];
+            updatedCart[itemExists].quantity++;
+        } else {
+            const newItem: CartItem = { ...action.payload.item, quantity: 1 }
+            updatedCart = [...state.cart, newItem]
+        }
+
         return {
             ...state,
+            updatedCart
         }
 
     }
