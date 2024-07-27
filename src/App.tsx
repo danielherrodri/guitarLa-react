@@ -21,13 +21,11 @@ function App() {
   return (
     <>
       <Header
-        cart={state.cart}
-        removeFromCart={removeFromCart}
+        cart={state?.cart}
+        dispatch={dispatch}
         increaseQuantity={increaseQuantity}
         decreaseQuantity={decreaseQuantity}
         clearCart={clearCart}
-        isEmpty={isEmpty}
-        cartTotal={cartTotal}
       />
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>

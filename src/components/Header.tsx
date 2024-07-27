@@ -1,8 +1,9 @@
-import { useMemo } from "react";
+import { Dispatch, useMemo } from "react";
 import type { CartItem, Guitar } from "../types";
+import { CartActions } from "../reducers/cart-reducer";
 type HeaderProps = {
-  cart: CartItem[];
-  removeFromCart: (id: Guitar["id"]) => void;
+  cart: CartItem[] | undefined;
+  dispatch: Dispatch<CartActions>;
   increaseQuantity: (id: Guitar["id"]) => void;
   decreaseQuantity: (id: Guitar["id"]) => void;
   clearCart: () => void;
@@ -10,16 +11,15 @@ type HeaderProps = {
 
 export default function Header({
   cart,
-  removeFromCart,
+  dispatch,
   increaseQuantity,
   decreaseQuantity,
   clearCart,
 }: HeaderProps) {
-  
-  const isEmpty = useMemo(() => cart.length === 0, [cart]);
+  const isEmpty = useMemo(() => cart?.length === 0, [cart]);
 
   const cartTotal = useMemo(
-    () => cart.reduce((total, item) => total + item.quantity * item.price, 0),
+    () => cart?.reduce((total, item) => total + item.quantity * item.price, 0),
     [cart]
   );
 
@@ -60,7 +60,7 @@ export default function Header({
                         </tr>
                       </thead>
                       <tbody>
-                        {cart.map((guitar) => (
+                        {cart?.map((guitar) => (
                           <tr key={guitar.id}>
                             <td>
                               <img
@@ -92,7 +92,12 @@ export default function Header({
                               <button
                                 className="btn btn-danger"
                                 type="button"
-                                onClick={() => removeFromCart(guitar.id)}
+                                onClick={() =>
+                                  dispatch({
+                                    type: "remove-from-cart",
+                                    payload: { id: guitar.id },
+                                  })
+                                }
                               >
                                 X
                               </button>
